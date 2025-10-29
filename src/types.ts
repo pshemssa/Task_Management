@@ -1,6 +1,11 @@
-export interface Task {
+// src/types.ts
+export interface StickyNote {
   id: string;
   text: string;
+  dueDate?: string;
   completed: boolean;
-  createdAt: number;
+  x: number;
+  y: number;
+  z: number;
+  color: string;
 }
