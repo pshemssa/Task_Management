@@ -15,7 +15,9 @@ function App() {
 
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const saved = localStorage.getItem('darkMode');
-    return saved ? JSON.parse(saved) : window.matchMedia('(prefers-color-scheme: dark)').matches;
+    return saved
+      ? JSON.parse(saved)
+      : window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
 
   useEffect(() => {
@@ -39,9 +41,7 @@ function App() {
 
   const updateNote = (id: string, updates: Partial<StickyNote>) => {
     setNotes(prev =>
-      prev.map(note =>
-        note.id === id ? { ...note, ...updates } : note
-      )
+      prev.map(note => (note.id === id ? { ...note, ...updates } : note))
     );
   };
 
@@ -52,9 +52,7 @@ function App() {
   const bringToTop = (id: string) => {
     const maxZ = Math.max(...notes.map(n => n.z), 0);
     setNotes(prev =>
-      prev.map(note =>
-        note.id === id ? { ...note, z: maxZ + 1 } : note
-      )
+      prev.map(note => (note.id === id ? { ...note, z: maxZ + 1 } : note))
     );
   };
 
@@ -65,24 +63,19 @@ function App() {
           ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900'
           : 'bg-gradient-to-br from-sky-50 via-white to-indigo-50'
       }`}
-      onDragOver={(e) => e.preventDefault()}
     >
-      {/* === TITLE === */}
+      {/* Title */}
       <header className="fixed top-0 left-0 right-0 z-40 flex items-center justify-center py-6 pointer-events-none">
-        <div className="text-center">
-          <h1
-            className={`text-4xl md:text-5xl font-bold tracking-tight drop-shadow-lg ${
-              isDarkMode
-                ? 'text-white'
-                : 'text-gray-800'
-            }`}
-          >
-            To-Do List
-          </h1>
-        </div>
+        <h1
+          className={`text-4xl md:text-5xl font-bold tracking-tight drop-shadow-lg ${
+            isDarkMode ? 'text-white' : 'text-gray-800'
+          }`}
+        >
+          To-Do List
+        </h1>
       </header>
 
-      {/* Dark Mode Toggle */}
+      {/* Dark-mode toggle */}
       <button
         onClick={() => setIsDarkMode(!isDarkMode)}
         className={`fixed top-6 right-6 p-3 rounded-full shadow-lg transition-all z-50 pointer-events-auto ${
@@ -94,8 +87,8 @@ function App() {
         {isDarkMode ? <Sun size={22} /> : <Moon size={22} />}
       </button>
 
-      {/* Sticky Notes */}
-      {notes.map((note) => (
+      {/* Notes */}
+      {notes.map(note => (
         <StickyNoteComponent
           key={note.id}
           note={note}
@@ -103,10 +96,11 @@ function App() {
           onDelete={deleteNote}
           onBringToTop={bringToTop}
           isDarkMode={isDarkMode}
+          allNotes={notes}               // <-- pass the whole array
         />
       ))}
 
-      {/* Add Button */}
+      {/* Add button */}
       <AddNoteButton onAdd={addNote} isDarkMode={isDarkMode} />
     </div>
   );
