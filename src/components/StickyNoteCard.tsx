@@ -1,7 +1,7 @@
 // src/components/StickyNoteCard.tsx
 import { Trash2, GripVertical, Calendar, CheckSquare, Square } from 'lucide-react';
 import { StickyNote } from '../types';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 
 interface StickyNoteCardProps {
   note: StickyNote;
@@ -39,9 +39,7 @@ export function StickyNoteCard({
 
   const textColor = isDarkMode ? 'text-gray-100' : 'text-gray-800';
 
-  /* --------------------------------------------------------------
-     1. Collision helpers
-     -------------------------------------------------------------- */
+  
   const rectsIntersect = (
     a: DOMRect,
     b: DOMRect
@@ -78,9 +76,7 @@ export function StickyNoteCard({
     }
   };
 
-  /* --------------------------------------------------------------
-     2. Drag handling (real-time follow + final free spot)
-     -------------------------------------------------------------- */
+  
   const onMouseDown = (e: React.MouseEvent) => {
     if ((e.target as HTMLElement).closest('button')) return; // ignore clicks on buttons
 
@@ -114,9 +110,7 @@ export function StickyNoteCard({
     window.addEventListener('mouseup', up);
   };
 
-  /* --------------------------------------------------------------
-     3. Editing
-     -------------------------------------------------------------- */
+  
   const saveEdit = () => {
     onUpdate(note.id, {
       text: editText.trim() || 'Untitled',
@@ -125,9 +119,7 @@ export function StickyNoteCard({
     setIsEditing(false);
   };
 
-  /* --------------------------------------------------------------
-     4. Render
-     -------------------------------------------------------------- */
+  
   return (
     <div
       ref={cardRef}
